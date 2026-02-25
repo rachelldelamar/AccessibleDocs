@@ -1,112 +1,118 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
+import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
-export default function TabTwoScreen() {
+export default function AboutScreen() {
+  const colorScheme = useColorScheme() ?? 'light';
+  const tintColor = Colors[colorScheme].tint;
+  const iconColor = Colors[colorScheme].icon;
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
+    <ThemedView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+
+        {/* Header */}
+        <View style={styles.headerRow}>
+          <IconSymbol name="doc.text.magnifyingglass" size={40} color={tintColor} />
+          <View style={styles.headerText}>
+            <ThemedText type="title">About</ThemedText>
+            <ThemedText style={{ color: iconColor }}>AccessibleDocs</ThemedText>
+          </View>
+        </View>
+
+        <ThemedText style={styles.intro}>
+          AccessibleDocs is an intelligent translation platform that goes beyond converting text.
+          After translation, you can tap any word to access definitions, context, and deeper
+          meaning — transforming documents into interactive learning experiences that bridge
+          language gaps.
         </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+
+        {/* Feature collapsibles */}
+        <Collapsible title="Interactive word exploration">
+          <ThemedText>
+            Every translated word is tappable. Tap a word to instantly see its{' '}
+            <ThemedText type="defaultSemiBold">definition</ThemedText>,{' '}
+            <ThemedText type="defaultSemiBold">example in context</ThemedText>, and{' '}
+            <ThemedText type="defaultSemiBold">origin / etymology</ThemedText>.
+          </ThemedText>
+        </Collapsible>
+
+        <Collapsible title="Multi-language support">
+          <ThemedText>
+            Translate between many languages including Spanish, French, German, Japanese,
+            Portuguese, and Chinese. Connect a translation API such as Google Translate or DeepL
+            to unlock full translation capabilities.
+          </ThemedText>
+        </Collapsible>
+
+        <Collapsible title="Connecting a translation API">
+          <ThemedText>
+            To enable real translations, add your API key to a{' '}
+            <ThemedText type="defaultSemiBold">.env</ThemedText> file at the project root and
+            implement the{' '}
+            <ThemedText type="defaultSemiBold">handleTranslate</ThemedText> function in{' '}
+            <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>.
+          </ThemedText>
+          <ThemedText style={styles.codeBlock}>
+            {'EXPO_PUBLIC_TRANSLATE_API_KEY=your_key_here'}
+          </ThemedText>
+        </Collapsible>
+
+        <Collapsible title="Connecting a dictionary API">
+          <ThemedText>
+            Word definitions are served from a built-in sample set. To provide real definitions,
+            connect a dictionary API (e.g. Merriam-Webster, Oxford, Free Dictionary API) inside{' '}
+            <ThemedText type="defaultSemiBold">components/word-detail-modal.tsx</ThemedText>.
+          </ThemedText>
+        </Collapsible>
+
+        <Collapsible title="Dark mode support">
+          <ThemedText>
+            The app fully supports light and dark mode. Colors adapt automatically using the
+            device&apos;s current color scheme.
+          </ThemedText>
+        </Collapsible>
+
+      </ScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
   },
-  titleContainer: {
+  scroll: {
+    padding: 20,
+    paddingTop: 60,
+    gap: 16,
+    paddingBottom: 40,
+  },
+  headerRow: {
     flexDirection: 'row',
-    gap: 8,
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 4,
+  },
+  headerText: {
+    gap: 2,
+  },
+  intro: {
+    fontSize: 15,
+    lineHeight: 22,
+    marginBottom: 4,
+  },
+  codeBlock: {
+    fontFamily: 'monospace',
+    fontSize: 13,
+    marginTop: 6,
+    padding: 8,
+    borderRadius: 6,
+    backgroundColor: 'rgba(128,128,128,0.12)',
   },
 });
