@@ -11,12 +11,66 @@
  */
 
 // Step 1 - Extract text from image
-//I am using Google Vision, this will still be mock data until its done being set up
+// Step 1 - Extract text from image using Google Cloud Vision
 async function extractText(base64Image) {
+  return new Promise((resolve, reject) => {
+    const apiKey = process.env.GOOGLE_VISION_API_KEY;
 
-  // TODO: Replace this with choosen OCR provider call
- 
-  return "Welcome to AccessibleDocs!";
+    if (!apiKey) {
+      reject(new Error("GOOGLE_VISION_API_KEY is missing from .env file"));
+      return;
+    }
+
+    // Remove the data URL prefix if present
+    // e.g. "data:image/jpeg;base64,/9j/..." → "/9j/..."
+    const base64Data = base64Image.includes(",")
+      ? base64Image.split(",")[1]
+      : base64Image;
+
+    const requestBody = JSON.stringify({
+      requests: [
+        {
+          image: { content: base64Data },
+          features: [{ type: "TEXT_DETECTION" }],
+        },
+      ],
+    });
+
+    const options = {
+      hostname: "vision.googleapis.com",
+      path: `/v1/images:annotate?key=${apiKey}`,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Length": Buffer.byteLength(requestBody),
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      let data = "";
+      res.on("data", (chunk) => { data += chunk; });
+      res.on("end", () => {
+        try {
+          const parsed = JSON.parse(data);
+          const text = parsed.responses?.[0]?.fullTextAnnotation?.text;
+          if (text) {
+            resolve(text.trim());
+          } else {
+            reject(new Error("No text found in image"));
+          }
+        } catch (err) {
+          reject(new Error("Failed to parse Vision API response"));
+        }
+      });
+    });
+
+    req.on("error", (err) => {
+      reject(err);
+    });
+
+    req.write(requestBody);
+    req.end();
+  });
 }
 
 // Step 2 - Translates English text to Spanish using DeepL
