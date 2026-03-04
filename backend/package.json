@@ -1,5 +1,5 @@
 {
-  "name": "AccessibleDocs-backend",
+  "name": "accessibledocs-backend",
   "version": "1.0.0",
   "description": "AccessibleDocs Smart translation app backend",
   "main": "src/index.js",

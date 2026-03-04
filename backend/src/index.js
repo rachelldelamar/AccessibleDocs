@@ -25,4 +25,4 @@ app.use("/api", translateRoute);
 // Starting the server
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
-});
+}); 
