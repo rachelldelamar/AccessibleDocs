@@ -17,8 +17,10 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", message: "Welcome! AcessibleDocs is running." });
 });
 
-// Routes will be added here later once i decide on my OCR
+// Routes added
 // app.use("/api", translateRoute);
+const translateRoute = require("./routes/translate");
+app.use("/api", translateRoute);
 
 // Starting the server
 app.listen(PORT, () => {
