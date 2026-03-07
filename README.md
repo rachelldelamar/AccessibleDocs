@@ -103,4 +103,4 @@ App runs on `http://localhost:3000`
 - (Completed) Full flow working end to end with mock data
 - (Completed)Google Cloud Vision integration
 - (Completed) DeepL integration
-- (In the works) Word tap feature
+- (Completed) Word tap feature, tap any Spanish word for a full Spanish definition
