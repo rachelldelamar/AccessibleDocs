@@ -25,3 +25,27 @@ export async function translateImage(base64Image) {
     translated: data.translated,
   };
 }
+
+// Messenger between the frontend and backend for word lookups.
+export async function explainWord(word) {
+  // Send the tapped word to our backend which looks it up on Wiktionary
+  const response = await fetch(`${BASE_URL}/explain`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ word }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok || !data.success) {
+    throw new Error(data.error || "Could not find definition.");
+  }
+
+  return {
+    word: data.word,
+    partOfSpeech: data.partOfSpeech,
+    definition: data.definition,
+    example: data.example,
+    language: data.language,
+  };
+}
