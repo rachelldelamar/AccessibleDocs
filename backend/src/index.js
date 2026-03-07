@@ -22,6 +22,10 @@ app.get("/health", (req, res) => {
 const translateRoute = require("./routes/translate");
 app.use("/api", translateRoute);
 
+//app.use("/api",explainationRoute);
+const explainRoute = require("./routes/explanations");
+app.use("/api", explainRoute);
+
 // Starting the server
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
