@@ -101,6 +101,6 @@ App runs on `http://localhost:3000`
 - (Completed) Backend server running on Express
 - (Completed) Frontend React app with camera capture
 - (Completed) Full flow working end to end with mock data
-- (In the works)Google Cloud Vision integration
-- (In the works) DeepL integration
+- (Completed)Google Cloud Vision integration
+- (Completed) DeepL integration
 - (In the works) Word tap feature
