@@ -37,7 +37,7 @@ router.post("/translate", async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Translation error:", error.message);
+    console.error("Translation error:", error.message, error.stack);
     return res.status(500).json({ 
       success: false, 
       error: "Translation failed. Please try again." 
